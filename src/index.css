@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --color-primary: #863bff;
+  --color-primary-dark: #6b21c8;
+  --color-primary-light: #ede6ff;
+  --color-accent: #47bfff;
+  --color-certified: #16a34a;
+  --color-bu-certified: #2563eb;
+  --color-ungoverned: #d97706;
+  --color-stale: #dc2626;
+  --color-tableau: #e8762d;
+  --color-lovable: #a855f7;
+  --color-claude: #d4a574;
+  --color-github-pages: #333333;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #f8f9fc;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}

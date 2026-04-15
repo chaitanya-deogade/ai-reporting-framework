@@ -1,0 +1,50 @@
+name: Sync Tableau Reports
+
+on:
+  # Run weekly on Monday at 6am UTC
+  schedule:
+    - cron: '0 6 * * 1'
+  # Allow manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyjwt requests
+
+      - name: Run Tableau sync
+        env:
+          TABLEAU_CONNECTED_APP_CLIENT_ID: ${{ secrets.TABLEAU_CONNECTED_APP_CLIENT_ID }}
+          TABLEAU_CONNECTED_APP_SECRET_ID: ${{ secrets.TABLEAU_CONNECTED_APP_SECRET_ID }}
+          TABLEAU_CONNECTED_APP_SECRET_VALUE: ${{ secrets.TABLEAU_CONNECTED_APP_SECRET_VALUE }}
+          TABLEAU_USER: ${{ secrets.TABLEAU_USER }}
+          TABLEAU_SITE: ${{ secrets.TABLEAU_SITE }}
+          TABLEAU_SERVER: ${{ secrets.TABLEAU_SERVER }}
+        run: python scripts/sync_tableau.py
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/reports.json public/thumbnails/
+          git commit -m "chore: sync Tableau reports $(date +%Y-%m-%d)"
+          git push

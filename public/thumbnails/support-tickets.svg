@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200" viewBox="0 0 400 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8f9fc" />
+      <stop offset="100%" style="stop-color:#ede6ff" />
+    </linearGradient>
+    <linearGradient id="areaDown" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#47bfff;stop-opacity:0.35" />
+      <stop offset="100%" style="stop-color:#47bfff;stop-opacity:0.02" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" fill="url(#bg)"/>
+  <line x1="40" y1="175" x2="375" y2="175" stroke="#e0d6f5" stroke-width="1"/>
+  <polygon points="50,40 95,55 140,75 185,95 230,110 275,130 320,148 365,160 365,175 50,175" fill="url(#areaDown)"/>
+  <polyline points="50,40 95,55 140,75 185,95 230,110 275,130 320,148 365,160" fill="none" stroke="#47bfff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="40" r="4" fill="#47bfff"/>
+  <circle cx="140" cy="75" r="4" fill="#47bfff"/>
+  <circle cx="230" cy="110" r="4" fill="#47bfff"/>
+  <circle cx="320" cy="148" r="4" fill="#47bfff"/>
+  <circle cx="365" cy="160" r="4" fill="#47bfff"/>
+</svg>

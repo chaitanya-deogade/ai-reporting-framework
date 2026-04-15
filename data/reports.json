@@ -1,0 +1,322 @@
+{
+  "reports": [
+    {
+      "id": "fin-001",
+      "name": "Monthly Revenue Dashboard",
+      "description": "Tracks MRR, ARR, and churn metrics across all product lines. Updated daily with data from Snowflake.",
+      "thumbnail": "thumbnails/revenue-dashboard.svg",
+      "url": "https://tableau.amplitude.com/views/revenue-dashboard",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "Revenue",
+      "tags": ["arr", "mrr", "churn", "executive"],
+      "owner": {
+        "name": "Sarah Chen",
+        "email": "sarah.chen@amplitude.com"
+      },
+      "certification": {
+        "status": "enterprise_certified",
+        "certified_by": "mike.johnson@amplitude.com",
+        "certified_at": "2026-03-15"
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-15T06:00:00Z",
+      "created_at": "2025-11-10",
+      "updated_at": "2026-04-15"
+    },
+    {
+      "id": "fin-002",
+      "name": "Expense Tracking by Department",
+      "description": "Departmental expense breakdown with budget vs actuals. Supports drill-down by cost center and vendor.",
+      "thumbnail": "thumbnails/expense-tracking.svg",
+      "url": "https://amplitude-expense.lovable.app",
+      "source": "lovable",
+      "bu": "Finance",
+      "category": "Expenses",
+      "tags": ["expenses", "budget", "departmental"],
+      "owner": {
+        "name": "David Park",
+        "email": "david.park@amplitude.com"
+      },
+      "certification": {
+        "status": "bu_certified",
+        "certified_by": "sarah.chen@amplitude.com",
+        "certified_at": "2026-04-01"
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-14T12:00:00Z",
+      "created_at": "2026-01-20",
+      "updated_at": "2026-04-14"
+    },
+    {
+      "id": "fin-003",
+      "name": "Budget vs Actuals FY26",
+      "description": "AI-generated analysis of FY26 budget performance with variance explanations and forecasting.",
+      "thumbnail": "thumbnails/budget-actuals.svg",
+      "url": "https://amplitude-budget.lovable.app",
+      "source": "claude",
+      "bu": "Finance",
+      "category": "Budget",
+      "tags": ["budget", "forecast", "ai-generated", "variance"],
+      "owner": {
+        "name": "Lisa Wong",
+        "email": "lisa.wong@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null
+      },
+      "access": {
+        "restricted": true,
+        "restricted_message": "This report contains sensitive financial data. Request access through ServiceNow or contact lisa.wong@amplitude.com."
+      },
+      "last_refreshed_at": "2026-04-10T08:00:00Z",
+      "created_at": "2026-03-01",
+      "updated_at": "2026-04-10"
+    },
+    {
+      "id": "cs-001",
+      "name": "Customer Health Score Tracker",
+      "description": "AI-powered health scores by account with risk indicators. Combines product usage, support tickets, and NPS data.",
+      "thumbnail": "thumbnails/health-score.svg",
+      "url": "https://amplitude-cs-health.lovable.app",
+      "source": "lovable",
+      "bu": "Customer Success",
+      "category": "Health Scores",
+      "tags": ["health-score", "ai-generated", "risk", "accounts"],
+      "owner": {
+        "name": "Alex Martinez",
+        "email": "alex.martinez@amplitude.com"
+      },
+      "certification": {
+        "status": "bu_certified",
+        "certified_by": "maria.garcia@amplitude.com",
+        "certified_at": "2026-04-05"
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-15T04:00:00Z",
+      "created_at": "2026-02-15",
+      "updated_at": "2026-04-15"
+    },
+    {
+      "id": "cs-002",
+      "name": "Renewal Forecast Dashboard",
+      "description": "Upcoming renewals with probability scores and revenue impact. Integrates with Salesforce opportunity data.",
+      "thumbnail": "thumbnails/renewal-forecast.svg",
+      "url": "https://tableau.amplitude.com/views/renewal-forecast",
+      "source": "tableau",
+      "bu": "Customer Success",
+      "category": "Renewals",
+      "tags": ["renewals", "forecast", "revenue"],
+      "owner": {
+        "name": "Maria Garcia",
+        "email": "maria.garcia@amplitude.com"
+      },
+      "certification": {
+        "status": "enterprise_certified",
+        "certified_by": "mike.johnson@amplitude.com",
+        "certified_at": "2026-02-20"
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-15T06:00:00Z",
+      "created_at": "2025-10-05",
+      "updated_at": "2026-04-15"
+    },
+    {
+      "id": "sales-001",
+      "name": "Pipeline Analytics",
+      "description": "Real-time pipeline view by stage, rep, and region. Tracks conversion rates and deal velocity.",
+      "thumbnail": "thumbnails/pipeline-analytics.svg",
+      "url": "https://tableau.amplitude.com/views/pipeline-analytics",
+      "source": "tableau",
+      "bu": "Sales",
+      "category": "Pipeline",
+      "tags": ["pipeline", "conversion", "deals", "reps"],
+      "owner": {
+        "name": "Tom Bradley",
+        "email": "tom.bradley@amplitude.com"
+      },
+      "certification": {
+        "status": "enterprise_certified",
+        "certified_by": "mike.johnson@amplitude.com",
+        "certified_at": "2026-01-15"
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-15T05:30:00Z",
+      "created_at": "2025-09-01",
+      "updated_at": "2026-04-15"
+    },
+    {
+      "id": "sales-002",
+      "name": "Win/Loss Analysis",
+      "description": "AI-generated analysis of closed deals identifying patterns in wins and losses by segment and competitor.",
+      "thumbnail": "thumbnails/win-loss.svg",
+      "url": "https://amplitude.github.io/win-loss-report",
+      "source": "github_pages",
+      "bu": "Sales",
+      "category": "Analysis",
+      "tags": ["win-loss", "competitive", "ai-generated"],
+      "owner": {
+        "name": "Rachel Kim",
+        "email": "rachel.kim@amplitude.com"
+      },
+      "certification": {
+        "status": "bu_certified",
+        "certified_by": "tom.bradley@amplitude.com",
+        "certified_at": "2026-03-28"
+      },
+      "access": {
+        "restricted": true,
+        "restricted_message": "Contains competitive intelligence. Request access from your Sales VP or contact rachel.kim@amplitude.com."
+      },
+      "last_refreshed_at": "2026-04-13T10:00:00Z",
+      "created_at": "2026-02-01",
+      "updated_at": "2026-04-13"
+    },
+    {
+      "id": "eng-001",
+      "name": "Sprint Velocity & Burndown",
+      "description": "Engineering team velocity metrics, sprint burndowns, and story point trends across squads.",
+      "thumbnail": "thumbnails/sprint-velocity.svg",
+      "url": "https://amplitude-eng-metrics.lovable.app",
+      "source": "lovable",
+      "bu": "Engineering",
+      "category": "Ops",
+      "tags": ["velocity", "sprint", "agile", "burndown"],
+      "owner": {
+        "name": "James Liu",
+        "email": "james.liu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-14T18:00:00Z",
+      "created_at": "2026-03-10",
+      "updated_at": "2026-04-14"
+    },
+    {
+      "id": "mktg-001",
+      "name": "Campaign Performance Overview",
+      "description": "Multi-channel campaign metrics including email, paid, and organic. Tracks CAC, CPL, and attribution.",
+      "thumbnail": "thumbnails/campaign-performance.svg",
+      "url": "https://tableau.amplitude.com/views/campaign-performance",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "Campaigns",
+      "tags": ["campaigns", "attribution", "cac", "paid"],
+      "owner": {
+        "name": "Emma Wilson",
+        "email": "emma.wilson@amplitude.com"
+      },
+      "certification": {
+        "status": "enterprise_certified",
+        "certified_by": "mike.johnson@amplitude.com",
+        "certified_at": "2026-03-01"
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-15T07:00:00Z",
+      "created_at": "2025-08-20",
+      "updated_at": "2026-04-15"
+    },
+    {
+      "id": "mktg-002",
+      "name": "Content Engagement Heatmap",
+      "description": "AI-generated content performance analysis showing engagement patterns, top-performing assets, and recommendations.",
+      "thumbnail": "thumbnails/content-heatmap.svg",
+      "url": "https://amplitude.github.io/content-engagement",
+      "source": "claude",
+      "bu": "Marketing",
+      "category": "Content",
+      "tags": ["content", "engagement", "ai-generated", "heatmap"],
+      "owner": {
+        "name": "Priya Patel",
+        "email": "priya.patel@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-08T14:00:00Z",
+      "created_at": "2026-03-25",
+      "updated_at": "2026-04-08"
+    },
+    {
+      "id": "people-001",
+      "name": "Headcount & Attrition Dashboard",
+      "description": "Organization headcount, attrition rates, and hiring pipeline by department and level.",
+      "thumbnail": "thumbnails/headcount.svg",
+      "url": "https://tableau.amplitude.com/views/headcount-attrition",
+      "source": "tableau",
+      "bu": "People Ops",
+      "category": "People",
+      "tags": ["headcount", "attrition", "hiring", "hr"],
+      "owner": {
+        "name": "Nicole Brown",
+        "email": "nicole.brown@amplitude.com"
+      },
+      "certification": {
+        "status": "enterprise_certified",
+        "certified_by": "mike.johnson@amplitude.com",
+        "certified_at": "2026-02-10"
+      },
+      "access": {
+        "restricted": true,
+        "restricted_message": "Contains sensitive HR data. Access limited to People Ops team and VP+. Contact nicole.brown@amplitude.com."
+      },
+      "last_refreshed_at": "2026-04-15T06:30:00Z",
+      "created_at": "2025-07-15",
+      "updated_at": "2026-04-15"
+    },
+    {
+      "id": "cs-003",
+      "name": "Support Ticket Analytics",
+      "description": "Ticket volume trends, SLA compliance, CSAT scores, and resolution time by category and priority.",
+      "thumbnail": "thumbnails/support-tickets.svg",
+      "url": "https://amplitude-support.lovable.app",
+      "source": "lovable",
+      "bu": "Customer Success",
+      "category": "Support",
+      "tags": ["support", "tickets", "sla", "csat"],
+      "owner": {
+        "name": "Kevin Nguyen",
+        "email": "kevin.nguyen@amplitude.com"
+      },
+      "certification": {
+        "status": "bu_certified",
+        "certified_by": "maria.garcia@amplitude.com",
+        "certified_at": "2026-04-10"
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-15T03:00:00Z",
+      "created_at": "2026-01-05",
+      "updated_at": "2026-04-15"
+    }
+  ],
+  "categories": ["Revenue", "Expenses", "Budget", "Health Scores", "Renewals", "Pipeline", "Analysis", "Ops", "Campaigns", "Content", "People", "Support"],
+  "business_units": ["Finance", "Customer Success", "Sales", "Engineering", "Marketing", "People Ops"],
+  "sources": ["tableau", "lovable", "github_pages", "claude", "other"]
+}
