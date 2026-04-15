@@ -61,14 +61,16 @@ def create_jwt_token():
     secret_value = get_env("TABLEAU_CONNECTED_APP_SECRET_VALUE")
     user = get_env("TABLEAU_USER")
 
+    now = int(time.time())
     token = jwt.encode(
         {
             "iss": client_id,
-            "exp": int(time.time()) + 300,  # 5 minutes
+            "exp": now + 600,  # 10 minutes
             "jti": str(uuid.uuid4()),
             "aud": "tableau",
             "sub": user,
-            "scp": ["tableau:views:read", "tableau:workbooks:read"],
+            "scp": ["tableau:content:read"],
+            "iat": now,
         },
         secret_value,
         algorithm="HS256",
@@ -81,23 +83,46 @@ def create_jwt_token():
 
 
 def sign_in(server, site, jwt_token):
-    """Sign in to the Tableau REST API and return auth token + site ID."""
-    url = f"{server}/api/3.22/auth/signin"
-    payload = {"credentials": {"jwt": jwt_token, "site": {"contentUrl": site}}}
+    """Sign in to the Tableau REST API and return auth token + site ID.
 
-    response = requests.post(url, json=payload)
-    response.raise_for_status()
+    Tries multiple API versions for compatibility.
+    """
+    # Try API versions from newest to oldest
+    api_versions = ["3.24", "3.22", "3.20", "3.19"]
 
-    data = response.json()
-    return {
-        "token": data["credentials"]["token"],
-        "site_id": data["credentials"]["site"]["id"],
-    }
+    for version in api_versions:
+        url = f"{server}/api/{version}/auth/signin"
+        payload = {"credentials": {"jwt": jwt_token, "site": {"contentUrl": site}}}
+
+        print(f"   Trying API version {version}...")
+        response = requests.post(url, json=payload)
+
+        if response.status_code == 200:
+            data = response.json()
+            print(f"   Success with API version {version}")
+            return {
+                "token": data["credentials"]["token"],
+                "site_id": data["credentials"]["site"]["id"],
+                "api_version": version,
+            }
+        else:
+            print(f"   API {version}: {response.status_code} - {response.text[:200]}")
+
+    # If all versions fail, raise with details
+    print(f"\n   ERROR: All API versions failed.")
+    print(f"   Server: {server}")
+    print(f"   Site: {site}")
+    print(f"   Common fixes:")
+    print(f"   - Verify the Connected App is 'Enabled' (not 'Disabled') in Tableau settings")
+    print(f"   - Ensure TABLEAU_USER email matches exactly (case-sensitive)")
+    print(f"   - Check that the user has at least Explorer role on the site")
+    print(f"   - Verify the Connected App has 'All projects' access scope")
+    sys.exit(1)
 
 
-def get_workbooks(server, site_id, auth_token):
+def get_workbooks(server, site_id, auth_token, api_version="3.24"):
     """Fetch all workbooks from Tableau Cloud."""
-    url = f"{server}/api/3.22/sites/{site_id}/workbooks"
+    url = f"{server}/api/{api_version}/sites/{site_id}/workbooks"
     headers = {"X-Tableau-Auth": auth_token}
     params = {"pageSize": 1000}
 
@@ -121,9 +146,9 @@ def get_workbooks(server, site_id, auth_token):
     return all_workbooks
 
 
-def download_thumbnail(server, site_id, auth_token, workbook_id, output_path):
+def download_thumbnail(server, site_id, auth_token, workbook_id, output_path, api_version="3.24"):
     """Download a workbook preview image."""
-    url = f"{server}/api/3.22/sites/{site_id}/workbooks/{workbook_id}/previewImage"
+    url = f"{server}/api/{api_version}/sites/{site_id}/workbooks/{workbook_id}/previewImage"
     headers = {"X-Tableau-Auth": auth_token}
 
     response = requests.get(url, headers=headers)
@@ -222,11 +247,12 @@ def main():
     print("\n1. Authenticating with Tableau Cloud...")
     jwt_token = create_jwt_token()
     auth = sign_in(server, site, jwt_token)
-    print(f"   Authenticated. Site ID: {auth['site_id'][:8]}...")
+    api_version = auth["api_version"]
+    print(f"   Authenticated. Site ID: {auth['site_id'][:8]}... (API {api_version})")
 
     # Step 2: Fetch workbooks
     print("\n2. Fetching workbooks...")
-    workbooks = get_workbooks(server, auth["site_id"], auth["token"])
+    workbooks = get_workbooks(server, auth["site_id"], auth["token"], api_version)
     print(f"   Found {len(workbooks)} workbooks")
 
     # Step 3: Convert to report format
@@ -237,7 +263,7 @@ def main():
     print("\n4. Downloading thumbnails...")
     for wb, report in zip(workbooks, new_reports):
         thumb_path = thumbnails_dir / f"tab-{wb['id'][:8]}.png"
-        if download_thumbnail(server, auth["site_id"], auth["token"], wb["id"], str(thumb_path)):
+        if download_thumbnail(server, auth["site_id"], auth["token"], wb["id"], str(thumb_path), api_version):
             print(f"   Downloaded: {report['name']}")
         else:
             print(f"   Skipped (no preview): {report['name']}")
