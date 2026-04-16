@@ -9,7 +9,12 @@
       "source": "tableau",
       "bu": "Finance",
       "category": "Revenue",
-      "tags": ["arr", "mrr", "churn", "executive"],
+      "tags": [
+        "arr",
+        "mrr",
+        "churn",
+        "executive"
+      ],
       "owner": {
         "name": "Sarah Chen",
         "email": "sarah.chen@amplitude.com"
@@ -35,7 +40,11 @@
       "source": "lovable",
       "bu": "Finance",
       "category": "Expenses",
-      "tags": ["expenses", "budget", "departmental"],
+      "tags": [
+        "expenses",
+        "budget",
+        "departmental"
+      ],
       "owner": {
         "name": "David Park",
         "email": "david.park@amplitude.com"
@@ -61,7 +70,12 @@
       "source": "claude",
       "bu": "Finance",
       "category": "Budget",
-      "tags": ["budget", "forecast", "ai-generated", "variance"],
+      "tags": [
+        "budget",
+        "forecast",
+        "ai-generated",
+        "variance"
+      ],
       "owner": {
         "name": "Lisa Wong",
         "email": "lisa.wong@amplitude.com"
@@ -88,7 +102,12 @@
       "source": "lovable",
       "bu": "Customer Success",
       "category": "Health Scores",
-      "tags": ["health-score", "ai-generated", "risk", "accounts"],
+      "tags": [
+        "health-score",
+        "ai-generated",
+        "risk",
+        "accounts"
+      ],
       "owner": {
         "name": "Alex Martinez",
         "email": "alex.martinez@amplitude.com"
@@ -114,7 +133,11 @@
       "source": "tableau",
       "bu": "Customer Success",
       "category": "Renewals",
-      "tags": ["renewals", "forecast", "revenue"],
+      "tags": [
+        "renewals",
+        "forecast",
+        "revenue"
+      ],
       "owner": {
         "name": "Maria Garcia",
         "email": "maria.garcia@amplitude.com"
@@ -140,7 +163,12 @@
       "source": "tableau",
       "bu": "Sales",
       "category": "Pipeline",
-      "tags": ["pipeline", "conversion", "deals", "reps"],
+      "tags": [
+        "pipeline",
+        "conversion",
+        "deals",
+        "reps"
+      ],
       "owner": {
         "name": "Tom Bradley",
         "email": "tom.bradley@amplitude.com"
@@ -166,7 +194,11 @@
       "source": "github_pages",
       "bu": "Sales",
       "category": "Analysis",
-      "tags": ["win-loss", "competitive", "ai-generated"],
+      "tags": [
+        "win-loss",
+        "competitive",
+        "ai-generated"
+      ],
       "owner": {
         "name": "Rachel Kim",
         "email": "rachel.kim@amplitude.com"
@@ -193,7 +225,12 @@
       "source": "lovable",
       "bu": "Engineering",
       "category": "Ops",
-      "tags": ["velocity", "sprint", "agile", "burndown"],
+      "tags": [
+        "velocity",
+        "sprint",
+        "agile",
+        "burndown"
+      ],
       "owner": {
         "name": "James Liu",
         "email": "james.liu@amplitude.com"
@@ -219,7 +256,12 @@
       "source": "tableau",
       "bu": "Marketing",
       "category": "Campaigns",
-      "tags": ["campaigns", "attribution", "cac", "paid"],
+      "tags": [
+        "campaigns",
+        "attribution",
+        "cac",
+        "paid"
+      ],
       "owner": {
         "name": "Emma Wilson",
         "email": "emma.wilson@amplitude.com"
@@ -245,7 +287,12 @@
       "source": "claude",
       "bu": "Marketing",
       "category": "Content",
-      "tags": ["content", "engagement", "ai-generated", "heatmap"],
+      "tags": [
+        "content",
+        "engagement",
+        "ai-generated",
+        "heatmap"
+      ],
       "owner": {
         "name": "Priya Patel",
         "email": "priya.patel@amplitude.com"
@@ -271,7 +318,12 @@
       "source": "tableau",
       "bu": "People Ops",
       "category": "People",
-      "tags": ["headcount", "attrition", "hiring", "hr"],
+      "tags": [
+        "headcount",
+        "attrition",
+        "hiring",
+        "hr"
+      ],
       "owner": {
         "name": "Nicole Brown",
         "email": "nicole.brown@amplitude.com"
@@ -298,7 +350,12 @@
       "source": "lovable",
       "bu": "Customer Success",
       "category": "Support",
-      "tags": ["support", "tickets", "sla", "csat"],
+      "tags": [
+        "support",
+        "tickets",
+        "sla",
+        "csat"
+      ],
       "owner": {
         "name": "Kevin Nguyen",
         "email": "kevin.nguyen@amplitude.com"
@@ -314,9 +371,1002 @@
       "last_refreshed_at": "2026-04-15T03:00:00Z",
       "created_at": "2026-01-05",
       "updated_at": "2026-04-15"
+    },
+    {
+      "id": "tab-c5cd1d33",
+      "name": "Starter V2 to V3 - Planning",
+      "description": "Tableau workbook: Starter V2 to V3 - Planning",
+      "thumbnail": "thumbnails/tab-c5cd1d33.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/StarterV2--V3Planning/StarterV2--V3MigrationPlanning",
+      "source": "tableau",
+      "bu": "Product",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "kirk.hlavka@amplitude.com",
+        "email": "kirk.hlavka@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2024-06-25T22:29:31Z",
+      "created_at": "2024-02-26T16:30:13Z",
+      "updated_at": "2024-06-25T22:29:31Z"
+    },
+    {
+      "id": "tab-70cfea01",
+      "name": "Apollo Self Serve Starter",
+      "description": "Tableau workbook: Apollo Self Serve Starter",
+      "thumbnail": "thumbnails/tab-70cfea01.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/ForecastModel/Account",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-10-24T22:49:22Z",
+      "created_at": "2024-07-11T15:18:45Z",
+      "updated_at": "2025-10-24T22:49:22Z"
+    },
+    {
+      "id": "tab-990fae83",
+      "name": "Account Cohort Report ",
+      "description": "Fixed broken reference to External Enterprise Segment",
+      "thumbnail": "thumbnails/tab-990fae83.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/AccountCohortReport/Account-Cohort",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-09-09T06:25:01Z",
+      "created_at": "2024-09-27T13:01:05Z",
+      "updated_at": "2025-09-09T06:25:01Z"
+    },
+    {
+      "id": "tab-0744a6d7",
+      "name": "Account Blade Cohort Report ",
+      "description": "Tableau workbook: Account Blade Cohort Report ",
+      "thumbnail": "thumbnails/tab-0744a6d7.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/AccountBladeCohortReport/Account-Cohort",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2024-12-12T20:45:53Z",
+      "created_at": "2024-09-30T20:31:39Z",
+      "updated_at": "2024-12-12T20:45:53Z"
+    },
+    {
+      "id": "tab-1a4148ff",
+      "name": "Dbt Runs Status",
+      "description": "Tableau workbook: Dbt Runs Status",
+      "thumbnail": "thumbnails/tab-1a4148ff.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/DbtRunsStatus-PROD_17301239328300/LatestRunsStatus",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-12-15T22:08:13Z",
+      "created_at": "2024-10-28T13:58:52Z",
+      "updated_at": "2025-12-15T22:08:13Z"
+    },
+    {
+      "id": "tab-3aca24b2",
+      "name": "Email Funnel",
+      "description": "Tableau workbook: Email Funnel",
+      "thumbnail": "thumbnails/tab-3aca24b2.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/EmailFunnel/EmailFunnelSummary",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-13T21:58:59Z",
+      "created_at": "2024-11-15T22:07:28Z",
+      "updated_at": "2026-03-13T21:58:59Z"
+    },
+    {
+      "id": "tab-7f372aa6",
+      "name": "[PROD_Archive] Headcount Bridge",
+      "description": "Tableau workbook: [PROD_Archive] Headcount Bridge",
+      "thumbnail": "thumbnails/tab-7f372aa6.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/HeadcountBridgeV2/HeadcountBridge",
+      "source": "tableau",
+      "bu": "Finance Archive",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-09T16:28:54Z",
+      "created_at": "2024-12-20T19:15:32Z",
+      "updated_at": "2026-03-09T16:28:54Z"
+    },
+    {
+      "id": "tab-7d021f36",
+      "name": "Pipeline Metrics",
+      "description": "Tableau workbook: Pipeline Metrics",
+      "thumbnail": "thumbnails/tab-7d021f36.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PipelineMetrics_17365313753560/ExecSummary",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "jackie.tesorero@amplitude.com",
+        "email": "jackie.tesorero@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-30T19:42:49Z",
+      "created_at": "2025-01-10T17:49:35Z",
+      "updated_at": "2026-03-30T19:42:49Z"
+    },
+    {
+      "id": "tab-9fb2fc2a",
+      "name": "TOFU Sales Performance",
+      "description": "Tableau workbook: TOFU Sales Performance",
+      "thumbnail": "thumbnails/tab-9fb2fc2a.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/TOFUSalesPerformance_17365484826900/ExecutiveSummary",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-13T22:03:17Z",
+      "created_at": "2025-01-10T22:34:42Z",
+      "updated_at": "2026-03-13T22:03:17Z"
+    },
+    {
+      "id": "tab-07a2e24b",
+      "name": "Campaign Metrics",
+      "description": "Tableau workbook: Campaign Metrics",
+      "thumbnail": "thumbnails/tab-07a2e24b.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/CampaignMetrics_17365746095160/CampaignPerformanceSummarybyCampaignStartDate",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "jackie.tesorero@amplitude.com",
+        "email": "jackie.tesorero@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-25T19:03:15Z",
+      "created_at": "2025-01-11T05:50:09Z",
+      "updated_at": "2026-03-25T19:03:15Z"
+    },
+    {
+      "id": "tab-a96f2622",
+      "name": "[Archive] Topline Metrics",
+      "description": "Tableau workbook: [Archive] Topline Metrics",
+      "thumbnail": "thumbnails/tab-a96f2622.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/ToplineMetrics/ActualsbyMonth",
+      "source": "tableau",
+      "bu": "Finance Archive",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-01-02T17:52:05Z",
+      "created_at": "2025-03-04T14:54:21Z",
+      "updated_at": "2026-01-02T17:52:05Z"
+    },
+    {
+      "id": "tab-c63c107c",
+      "name": "[PROD] Product Finance Metrics",
+      "description": "Tableau workbook: [PROD] Product Finance Metrics",
+      "thumbnail": "thumbnails/tab-c63c107c.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/ProductFinanceMetricsv3/FAQs",
+      "source": "tableau",
+      "bu": "Product",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-05-05T17:55:35Z",
+      "created_at": "2025-03-05T11:20:15Z",
+      "updated_at": "2025-05-05T17:55:35Z"
+    },
+    {
+      "id": "tab-a07a0028",
+      "name": "Consumption Metrics",
+      "description": "Changed the Gsheet source to Snowflake View for Dashboard Information\nAdded New Account level view for SFDC\nUpdated the Consumption Goal from 80% to 70%\nAdded PSP Lead Name and Assigned SE as filters",
+      "thumbnail": "thumbnails/tab-a07a0028.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/ConsumptionMetrics_17413700778330/ConsumptionSummary",
+      "source": "tableau",
+      "bu": "Sales",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mala.rajpoot@amplitude.com",
+        "email": "mala.rajpoot@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-07T16:48:21Z",
+      "created_at": "2025-03-07T17:54:37Z",
+      "updated_at": "2026-04-07T16:48:21Z"
+    },
+    {
+      "id": "tab-a7c010ef",
+      "name": "CaptivateIQ_ARCHIVE",
+      "description": "Tableau workbook: CaptivateIQ_ARCHIVE",
+      "thumbnail": "thumbnails/tab-a7c010ef.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/CaptivateIQ_ARCHIVE/CaptivateIQ",
+      "source": "tableau",
+      "bu": "Finance Archive",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-07-29T21:15:09Z",
+      "created_at": "2025-03-20T18:01:07Z",
+      "updated_at": "2025-07-29T21:15:09Z"
+    },
+    {
+      "id": "tab-f4f6ffd9",
+      "name": "[PROD] Plus Subscriptions [Full PLG Business]",
+      "description": "Tableau workbook: [PROD] Plus Subscriptions [Full PLG Business]",
+      "thumbnail": "thumbnails/tab-f4f6ffd9.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PRODPlusSubscriptionsFullPLGBusiness/InternalPlusSubscriptionDashboard",
+      "source": "tableau",
+      "bu": "Product",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-01-06T00:57:42Z",
+      "created_at": "2025-04-29T18:18:40Z",
+      "updated_at": "2026-01-06T00:57:42Z"
+    },
+    {
+      "id": "tab-b84eb07d",
+      "name": "Marketo Database",
+      "description": "Replica of CRMA report",
+      "thumbnail": "thumbnails/tab-b84eb07d.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/MarketoDatabase/MarketoDatabase",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-13T22:02:40Z",
+      "created_at": "2025-05-13T13:50:31Z",
+      "updated_at": "2026-03-13T22:02:40Z"
+    },
+    {
+      "id": "tab-b9fa0c35",
+      "name": "[PROD] Multi-blade Metrics Dashboard",
+      "description": "Tableau workbook: [PROD] Multi-blade Metrics Dashboard",
+      "thumbnail": "thumbnails/tab-b9fa0c35.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PRODMulti-bladeMetricsDashboard_17495994659690/InternalCount",
+      "source": "tableau",
+      "bu": "Product",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-11-14T19:34:49Z",
+      "created_at": "2025-06-10T23:51:05Z",
+      "updated_at": "2025-11-14T19:34:49Z"
+    },
+    {
+      "id": "tab-438a87b0",
+      "name": "[PROD] Topline Metrics 2.0",
+      "description": "Semi-automatic update to select the lastest month in quarter for the quarterly views",
+      "thumbnail": "thumbnails/tab-438a87b0.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PRODToplineMetrics2_0/1a_ExecQuarterly",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-05T00:35:44Z",
+      "created_at": "2025-06-13T18:19:49Z",
+      "updated_at": "2026-03-05T00:35:44Z"
+    },
+    {
+      "id": "tab-2632f512",
+      "name": "[PROD] Quarterly Business Review (QBR)",
+      "description": "Added 1M+ ASP worksheet",
+      "thumbnail": "thumbnails/tab-2632f512.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PRODQBR/2_SummaryMetrics",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-01-14T22:35:59Z",
+      "created_at": "2025-06-17T22:35:34Z",
+      "updated_at": "2026-01-14T22:35:59Z"
+    },
+    {
+      "id": "tab-acbcea26",
+      "name": "Named Account",
+      "description": "Tableau workbook: Named Account",
+      "thumbnail": "thumbnails/tab-acbcea26.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/NamedAccount/ExecutiveSummary",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "omar.hani@amplitude.com",
+        "email": "omar.hani@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-17T19:08:58Z",
+      "created_at": "2025-06-27T17:41:05Z",
+      "updated_at": "2026-03-17T19:08:58Z"
+    },
+    {
+      "id": "tab-8a0eb21d",
+      "name": "Operating Trends",
+      "description": "Tableau workbook: Operating Trends",
+      "thumbnail": "thumbnails/tab-8a0eb21d.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/OperatingTrends/LandExpandChurn",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-07-01T21:29:01Z",
+      "created_at": "2025-07-01T21:29:01Z",
+      "updated_at": "2025-07-01T21:29:01Z"
+    },
+    {
+      "id": "tab-544fef4a",
+      "name": "[PROD] Consumption Dashboard - Phase 2",
+      "description": "Tableau workbook: [PROD] Consumption Dashboard - Phase 2",
+      "thumbnail": "thumbnails/tab-544fef4a.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PRODConsumptionDashboard-Phase2/ConsumptionSummary",
+      "source": "tableau",
+      "bu": "Customer Intelligence Archive",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "abhisek.mukherjee@amplitude.com",
+        "email": "abhisek.mukherjee@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-09-17T21:20:10Z",
+      "created_at": "2025-09-08T16:53:35Z",
+      "updated_at": "2025-09-17T21:20:10Z"
+    },
+    {
+      "id": "tab-4530a016",
+      "name": "ARCHIVED Consumption Metrics",
+      "description": "Tableau workbook: ARCHIVED Consumption Metrics",
+      "thumbnail": "thumbnails/tab-4530a016.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/ConsumptionMetrics_17581456209470/PortfolioTrends",
+      "source": "tableau",
+      "bu": "GTM Archive",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-09-17T22:58:19Z",
+      "created_at": "2025-09-17T21:47:00Z",
+      "updated_at": "2025-09-17T22:58:19Z"
+    },
+    {
+      "id": "tab-28775369",
+      "name": "Account Churn Prediction",
+      "description": "Tableau workbook: Account Churn Prediction",
+      "thumbnail": "thumbnails/tab-28775369.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/AccountChurnPrediction/AccountsbyCohort",
+      "source": "tableau",
+      "bu": "Customer Intelligence",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mala.rajpoot@amplitude.com",
+        "email": "mala.rajpoot@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-10T17:03:32Z",
+      "created_at": "2025-09-19T13:23:31Z",
+      "updated_at": "2026-04-10T17:03:32Z"
+    },
+    {
+      "id": "tab-3cad9d3f",
+      "name": "User Churn Prediction",
+      "description": "Tableau workbook: User Churn Prediction",
+      "thumbnail": "thumbnails/tab-3cad9d3f.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/UserChurnInsights_17591536756640/UserChurnInsights",
+      "source": "tableau",
+      "bu": "Customer Intelligence",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "abhisek.mukherjee@amplitude.com",
+        "email": "abhisek.mukherjee@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2025-10-13T06:25:47Z",
+      "created_at": "2025-09-29T13:47:55Z",
+      "updated_at": "2025-10-13T06:25:47Z"
+    },
+    {
+      "id": "tab-a012235f",
+      "name": "Blade Churn Prediction",
+      "description": "Tableau workbook: Blade Churn Prediction",
+      "thumbnail": "thumbnails/tab-a012235f.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/BladeChurnDashboard/BladeChurn-Analytics",
+      "source": "tableau",
+      "bu": "Customer Intelligence",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "abhisek.mukherjee@amplitude.com",
+        "email": "abhisek.mukherjee@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-01-23T17:20:40Z",
+      "created_at": "2025-10-09T15:04:20Z",
+      "updated_at": "2026-01-23T17:20:40Z"
+    },
+    {
+      "id": "tab-0d559f35",
+      "name": "ROI Dashboard",
+      "description": "Tableau workbook: ROI Dashboard",
+      "thumbnail": "thumbnails/tab-0d559f35.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/ROIDashboard/DashboardGuide",
+      "source": "tableau",
+      "bu": "Marketing",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-03-13T22:02:41Z",
+      "created_at": "2025-10-14T19:48:12Z",
+      "updated_at": "2026-03-13T22:02:41Z"
+    },
+    {
+      "id": "tab-b1961745",
+      "name": "[PROD] Available to Renew (ATR) Metrics",
+      "description": "Updating time range to Q126",
+      "thumbnail": "thumbnails/tab-b1961745.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PRODAvailabletoRenewATR/AvailabletoRenewTable",
+      "source": "tableau",
+      "bu": "Finance",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "steven.li@amplitude.com",
+        "email": "steven.li@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-10T20:52:16Z",
+      "created_at": "2025-12-02T18:59:16Z",
+      "updated_at": "2026-04-10T20:52:16Z"
+    },
+    {
+      "id": "tab-46b02d0c",
+      "name": "Customer Lifecycle Dashboard",
+      "description": "Tableau workbook: Customer Lifecycle Dashboard",
+      "thumbnail": "thumbnails/tab-46b02d0c.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/CustomerLifecycleDashboard_17648556583840/CustomerLifecycleMetrics",
+      "source": "tableau",
+      "bu": "Customer Intelligence",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "abhisek.mukherjee@amplitude.com",
+        "email": "abhisek.mukherjee@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-02-27T15:26:12Z",
+      "created_at": "2025-12-04T13:40:58Z",
+      "updated_at": "2026-02-27T15:26:12Z"
+    },
+    {
+      "id": "tab-4f700446",
+      "name": "GTM ARR Dashboard",
+      "description": "Tableau workbook: GTM ARR Dashboard",
+      "thumbnail": "thumbnails/tab-4f700446.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/GTMARRDashboard/ExecutiveSummary",
+      "source": "tableau",
+      "bu": "GTM S&O",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "mani.somarouthu@amplitude.com",
+        "email": "mani.somarouthu@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-04-10T18:57:29Z",
+      "created_at": "2025-12-19T19:56:42Z",
+      "updated_at": "2026-04-10T18:57:29Z"
+    },
+    {
+      "id": "tab-5512d1e4",
+      "name": " Blade Churn Prediction",
+      "description": "Tableau workbook:  Blade Churn Prediction",
+      "thumbnail": "thumbnails/tab-5512d1e4.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/BladeChurnPrediction/BladeChurn-Analytics",
+      "source": "tableau",
+      "bu": "Customer Intelligence",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "abhisek.mukherjee@amplitude.com",
+        "email": "abhisek.mukherjee@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-01-23T17:25:12Z",
+      "created_at": "2026-01-23T17:25:11Z",
+      "updated_at": "2026-01-23T17:25:12Z"
     }
   ],
-  "categories": ["Revenue", "Expenses", "Budget", "Health Scores", "Renewals", "Pipeline", "Analysis", "Ops", "Campaigns", "Content", "People", "Support"],
-  "business_units": ["Finance", "Customer Success", "Sales", "Engineering", "Marketing", "People Ops"],
-  "sources": ["tableau", "lovable", "github_pages", "claude", "other"]
+  "categories": [
+    "Revenue",
+    "Expenses",
+    "Budget",
+    "Health Scores",
+    "Renewals",
+    "Pipeline",
+    "Analysis",
+    "Ops",
+    "Campaigns",
+    "Content",
+    "People",
+    "Support"
+  ],
+  "business_units": [
+    "Customer Intelligence",
+    "Customer Intelligence Archive",
+    "Customer Success",
+    "Engineering",
+    "Finance",
+    "Finance Archive",
+    "GTM Archive",
+    "GTM S&O",
+    "Marketing",
+    "People Ops",
+    "Product",
+    "Sales"
+  ],
+  "sources": [
+    "tableau",
+    "lovable",
+    "github_pages",
+    "claude",
+    "other"
+  ]
 }
