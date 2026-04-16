@@ -210,6 +210,20 @@ def get_views_for_workbook(server, site_id, auth_token, workbook_id, api_version
         return []
 
 
+def download_thumbnail(server, site_id, auth_token, workbook_id, output_path, api_version="3.24"):
+    """Download a workbook preview image."""
+    url = f"{server}/api/{api_version}/sites/{site_id}/workbooks/{workbook_id}/previewImage"
+    headers = {"X-Tableau-Auth": auth_token}
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        with open(output_path, "wb") as f:
+            f.write(response.content)
+        return True
+    return False
+
+
 def build_tableau_url(server, site, workbook_content_url, view_content_url=None):
     """Build the correct Tableau Cloud URL for a view.
 
