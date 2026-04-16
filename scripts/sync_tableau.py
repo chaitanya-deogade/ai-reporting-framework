@@ -186,6 +186,35 @@ def get_workbooks(server, site_id, auth_token, api_version="3.24"):
     return all_workbooks
 
 
+def get_workbook_details(server, site_id, auth_token, workbook_id, api_version="3.24"):
+    """Fetch detailed info for a single workbook (includes certification fields)."""
+    url = f"{server}/api/{api_version}/sites/{site_id}/workbooks/{workbook_id}"
+    headers = {"X-Tableau-Auth": auth_token, "Accept": "application/xml"}
+
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            return None
+
+        root = ET.fromstring(response.text)
+        wb = root.find(".//t:workbook", NS)
+        if wb is None:
+            return None
+
+        is_certified = wb.get("isCertified", "false").lower() == "true"
+        certification_note = wb.get("certificationNote", "") or ""
+        description = wb.get("description", "") or ""
+
+        return {
+            "isCertified": is_certified,
+            "certificationNote": certification_note,
+            "description": description,
+        }
+    except Exception as e:
+        print(f"   Warning: Could not fetch details for workbook {workbook_id}: {e}")
+        return None
+
+
 def get_views_for_workbook(server, site_id, auth_token, workbook_id, api_version="3.24"):
     """Fetch views for a specific workbook to get correct view URLs."""
     url = f"{server}/api/{api_version}/sites/{site_id}/workbooks/{workbook_id}/views"
@@ -233,8 +262,10 @@ def build_tableau_url(server, site, workbook_content_url, view_content_url=None)
     The view contentUrl from the API is in format: WorkbookName/ViewName
     """
     if view_content_url:
-        # view contentUrl is already in "WorkbookName/ViewName" format
-        return f"{server}/#/site/{site}/views/{view_content_url}"
+        # The API returns contentUrl as "WorkbookName/sheets/ViewName"
+        # but Tableau Cloud browser URLs use "WorkbookName/ViewName" (no /sheets/)
+        clean_url = view_content_url.replace("/sheets/", "/")
+        return f"{server}/#/site/{site}/views/{clean_url}"
     else:
         # Fallback: use workbook contentUrl (links to first view)
         return f"{server}/#/site/{site}/workbooks/{workbook_content_url}"
@@ -377,17 +408,38 @@ def main():
     workbooks = get_workbooks(server, auth["site_id"], auth["token"], api_version)
     print(f"   Found {len(workbooks)} workbooks in [PROD] projects")
 
-    # Step 3: Fetch default view URL for each workbook
-    print("\n3. Fetching view URLs for correct linking...")
+    # Step 3: Fetch view URLs and workbook details (certification) for each workbook
+    print("\n3. Fetching view URLs and certification details...")
     wb_view_urls = {}
+    certified_count = 0
     for i, wb in enumerate(workbooks):
+        # Fetch views for URL
         views = get_views_for_workbook(server, auth["site_id"], auth["token"], wb["id"], api_version)
         if views:
-            # Use the first view's contentUrl as the default link
             wb_view_urls[wb["id"]] = views[0]["contentUrl"]
-        if (i + 1) % 50 == 0:
+
+        # Fetch individual workbook details for certification
+        # (the list endpoint may not include isCertified)
+        details = get_workbook_details(server, auth["site_id"], auth["token"], wb["id"], api_version)
+        if details:
+            wb["isCertified"] = details["isCertified"]
+            wb["certificationNote"] = details["certificationNote"]
+            if details.get("description"):
+                wb["description"] = details["description"]
+
+            # Recalculate certification status from detail endpoint
+            if details["isCertified"]:
+                certified_count += 1
+                note_lower = details["certificationNote"].lower()
+                if "bu" in note_lower and "enterprise" not in note_lower:
+                    wb["certStatus"] = "bu_certified"
+                else:
+                    wb["certStatus"] = "enterprise_certified"
+
+        if (i + 1) % 10 == 0:
             print(f"   Processed {i + 1}/{len(workbooks)} workbooks...")
     print(f"   Got view URLs for {len(wb_view_urls)} workbooks")
+    print(f"   Found {certified_count} certified workbooks out of {len(workbooks)}")
 
     # Step 4: Convert to report format
     print("\n4. Converting to report format...")
