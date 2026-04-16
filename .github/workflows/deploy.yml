@@ -35,6 +35,11 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Fine-grained PAT with Contents:write on this repo only.
+          # Required for the certification auto-save feature.
+          # Add this secret at: Settings → Secrets → Actions → VITE_GITHUB_TOKEN
+          VITE_GITHUB_TOKEN: ${{ secrets.VITE_GITHUB_TOKEN }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
