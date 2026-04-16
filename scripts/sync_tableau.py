@@ -351,8 +351,10 @@ def load_existing_reports(reports_path):
 def merge_reports(existing_data, new_tableau_reports):
     """Merge new Tableau reports into existing data.
 
-    Certification always comes from Tableau API (source of truth).
-    Manual overrides for category, access, and description are preserved.
+    Since Amplitude does not use Tableau's native certification API feature,
+    certification is managed in the Hub (reports.json) and must be preserved
+    across syncs. Category, access, description, and certification are all
+    treated as hub-managed fields.
     """
     existing_reports = existing_data["reports"]
     existing_by_id = {r["id"]: r for r in existing_reports}
@@ -368,11 +370,21 @@ def merge_reports(existing_data, new_tableau_reports):
     for new_report in new_tableau_reports:
         existing = existing_by_id.get(new_report["id"])
         if existing:
+            # Preserve hub-managed fields across syncs
             new_report["category"] = existing.get("category", new_report["category"])
             new_report["access"] = existing.get("access", new_report["access"])
+
             existing_desc = existing.get("description", "")
             if existing_desc and not existing_desc.startswith("Tableau workbook:"):
                 new_report["description"] = existing_desc
+
+            # IMPORTANT: Preserve certification set in the Hub.
+            # Tableau does not use its native certification API, so
+            # isCertified is always false. The Hub is the source of truth.
+            existing_cert = existing.get("certification", {})
+            if existing_cert.get("status", "none") != "none":
+                new_report["certification"] = existing_cert
+
         merged.append(new_report)
 
     existing_data["reports"] = merged
