@@ -1163,11 +1163,9 @@
         "email": "abhisek.mukherjee@amplitude.com"
       },
       "certification": {
-        "status": "none",
-        "certified_by": null,
-        "certified_at": null,
-        "source": "tableau_api",
-        "note": null
+        "status": "enterprise_certified",
+        "certified_by": "demo@amplitude.com",
+        "certified_at": "2026-04-16"
       },
       "access": {
         "restricted": false
