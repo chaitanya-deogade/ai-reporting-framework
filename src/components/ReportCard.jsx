@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ExternalLink, Lock, RefreshCw, Eye, User, ThumbsUp, ThumbsDown, Clock, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Lock, RefreshCw, Eye, User, ThumbsUp, ThumbsDown, Clock, ShieldCheck, Copy, Check } from 'lucide-react';
 import { SOURCE_CONFIG, CERTIFICATION_CONFIG } from '../utils/constants';
 import { getFreshness, getFreshnessColor, formatDate, trackView, getViewCount, saveFeedback, getFeedback, getCertificationOverride, saveCertificationOverride } from '../utils/helpers';
 import { useAuth } from '../contexts/AuthContext';
@@ -8,6 +8,8 @@ export default function ReportCard({ report }) {
   const { user, canCertify } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [showCertifyMenu, setShowCertifyMenu] = useState(false);
+  const [showCertifyCommit, setShowCertifyCommit] = useState(null); // holds pending cert change
+  const [copied, setCopied] = useState(false);
   const [viewCount, setViewCount] = useState(() => getViewCount(report.id));
   const [feedback, setFeedbackState] = useState(() => getFeedback(report.id));
 
@@ -42,9 +44,24 @@ export default function ReportCard({ report }) {
       certified_by: user?.email || 'anonymous',
       certified_at: new Date().toISOString().split('T')[0],
     };
+    // Save locally for immediate visual feedback
     saveCertificationOverride(report.id, certification);
     setCertStatus(newStatus);
     setShowCertifyMenu(false);
+    // Show commit modal so the change can be persisted to reports.json
+    setShowCertifyCommit({ certification, reportId: report.id, reportName: report.name });
+  };
+
+  const certJsonSnippet = showCertifyCommit
+    ? JSON.stringify({ "certification": showCertifyCommit.certification }, null, 2)
+    : '';
+
+  const githubEditUrl = 'https://github.com/chaitanya-deogade/ai-reporting-framework/edit/main/data/reports.json';
+
+  const handleCopyJson = () => {
+    navigator.clipboard.writeText(certJsonSnippet);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   const handleFeedback = (type) => {
@@ -263,6 +280,62 @@ export default function ReportCard({ report }) {
                 Close
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Certification Commit Modal */}
+      {showCertifyCommit && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          onClick={() => setShowCertifyCommit(null)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 mb-1">
+              <div className="p-2.5 rounded-full bg-[#863bff]/10">
+                <ShieldCheck className="w-5 h-5 text-[#863bff]" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">Save Certification</h3>
+            </div>
+            <p className="text-xs text-gray-500 mb-4 ml-[52px]">
+              Certification is visible to you now. To make it permanent for all users, paste this into <code className="bg-gray-100 px-1 rounded">reports.json</code> for report <strong>{showCertifyCommit.reportId}</strong>.
+            </p>
+
+            {/* JSON snippet */}
+            <div className="relative bg-gray-900 rounded-lg p-4 mb-4 font-mono text-xs text-green-400">
+              <pre className="whitespace-pre-wrap">{certJsonSnippet}</pre>
+              <button
+                onClick={handleCopyJson}
+                className="absolute top-2 right-2 p-1.5 rounded bg-gray-700 hover:bg-gray-600 transition-colors"
+                title="Copy to clipboard"
+              >
+                {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-gray-300" />}
+              </button>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <a
+                href={githubEditUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-[#863bff] text-white text-sm font-medium hover:bg-[#6b21c8] transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Open reports.json on GitHub
+              </a>
+              <button
+                onClick={() => setShowCertifyCommit(null)}
+                className="px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Done
+              </button>
+            </div>
+            <p className="text-[10px] text-gray-400 mt-3 text-center">
+              Find the report by ID · paste the certification block · commit → auto-deploys in ~1 min
+            </p>
           </div>
         </div>
       )}
