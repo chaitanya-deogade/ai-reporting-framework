@@ -2,7 +2,8 @@
 """
 Tableau Cloud Sync Script
 =========================
-Pulls workbooks and views from Tableau Cloud and updates data/reports.json.
+Pulls workbooks and views from [PROD] projects in Tableau Cloud
+and updates data/reports.json.
 
 Prerequisites:
   pip install pyjwt requests
@@ -13,23 +14,15 @@ Environment variables required:
   TABLEAU_CONNECTED_APP_SECRET_VALUE - Connected App Secret Value
   TABLEAU_USER                     - Email of user to impersonate
   TABLEAU_SITE                     - Tableau site name (from URL)
-  TABLEAU_SERVER                   - Tableau server URL (e.g., https://prod-useast-b.online.tableau.com)
+  TABLEAU_SERVER                   - Tableau server URL (e.g., https://10ay.online.tableau.com)
 
 Usage:
   python scripts/sync_tableau.py
-
-Setup Guide:
-  1. Log in to Tableau Cloud as Site Admin
-  2. Go to Settings -> Connected Apps
-  3. Click "New Connected App" -> "Direct Trust"
-  4. Name it "report-hub-integration"
-  5. Copy Client ID, Secret ID, and Secret Value
-  6. Set the environment variables above
-  7. Run this script manually or via GitHub Actions (see .github/workflows/sync-tableau.yml)
 """
 
 import json
 import os
+import re
 import sys
 import time
 import uuid
@@ -53,7 +46,6 @@ def get_env(key, required=True):
     value = os.environ.get(key)
     if required and not value:
         print(f"Error: {key} environment variable is not set.")
-        print(f"See the setup guide at the top of this script.")
         sys.exit(1)
     return value
 
@@ -69,7 +61,7 @@ def create_jwt_token():
     token = jwt.encode(
         {
             "iss": client_id,
-            "exp": now + 600,  # 10 minutes
+            "exp": now + 600,
             "jti": str(uuid.uuid4()),
             "aud": "tableau",
             "sub": user,
@@ -87,13 +79,9 @@ def create_jwt_token():
 
 
 def sign_in(server, site, jwt_token):
-    """Sign in to the Tableau REST API using XML payloads.
-
-    Tries multiple API versions for compatibility.
-    """
+    """Sign in to the Tableau REST API using XML payloads."""
     api_versions = ["3.24", "3.22", "3.20", "3.19"]
 
-    # Tableau REST API expects XML
     xml_payload = f"""
     <tsRequest>
       <credentials jwt="{jwt_token}">
@@ -122,23 +110,21 @@ def sign_in(server, site, jwt_token):
             print(f"   API {version}: {response.status_code} - {response.text[:300]}")
 
     print(f"\n   ERROR: All API versions failed.")
-    print(f"   Server: {server}")
-    print(f"   Site: {site}")
     print(f"   Common fixes:")
-    print(f"   - Verify the Connected App is 'Enabled' (not 'Disabled') in Tableau settings")
-    print(f"   - Ensure TABLEAU_USER email matches exactly (case-sensitive)")
-    print(f"   - Check that the user has at least Explorer role on the site")
-    print(f"   - Verify the Connected App has 'All projects' access scope")
+    print(f"   - Verify the Connected App is 'Enabled'")
+    print(f"   - Ensure TABLEAU_USER email matches exactly")
+    print(f"   - Check that the user has at least Explorer role")
     sys.exit(1)
 
 
 def get_workbooks(server, site_id, auth_token, api_version="3.24"):
-    """Fetch all workbooks from Tableau Cloud (XML parsing)."""
+    """Fetch all workbooks from [PROD] projects only."""
     url = f"{server}/api/{api_version}/sites/{site_id}/workbooks"
     headers = {"X-Tableau-Auth": auth_token, "Accept": "application/xml"}
     params = {"pageSize": 100}
 
     all_workbooks = []
+    skipped_non_prod = 0
     page = 1
 
     while True:
@@ -151,17 +137,19 @@ def get_workbooks(server, site_id, auth_token, api_version="3.24"):
         total = int(pagination.get("totalAvailable", "0"))
 
         for wb in root.findall(".//t:workbook", NS):
-            owner_elem = wb.find("t:owner", NS)
             project_elem = wb.find("t:project", NS)
+            project_name = project_elem.get("name", "") if project_elem is not None else ""
 
-            # Parse certification status from Tableau
-            # Tableau uses isCertified attribute + certificationNote
+            # FILTER: Only include workbooks from [PROD] projects
+            if not project_name.startswith("[PROD]"):
+                skipped_non_prod += 1
+                continue
+
+            owner_elem = wb.find("t:owner", NS)
+
+            # Parse certification
             is_certified = wb.get("isCertified", "false").lower() == "true"
             certification_note = wb.get("certificationNote", "") or ""
-
-            # Determine certification level from the note or flag
-            # Tableau certified = enterprise_certified
-            # If note contains "BU" = bu_certified
             cert_status = "none"
             if is_certified:
                 note_lower = certification_note.lower()
@@ -185,44 +173,91 @@ def get_workbooks(server, site_id, auth_token, api_version="3.24"):
                     "email": owner_elem.get("name", "unknown") if owner_elem is not None else "unknown",
                 },
                 "project": {
-                    "name": project_elem.get("name", "General") if project_elem is not None else "General",
+                    "name": project_name,
                 },
             })
 
-        if len(all_workbooks) >= total:
+        fetched_so_far = page * 100  # approximate
+        if fetched_so_far >= total:
             break
         page += 1
 
+    print(f"   Skipped {skipped_non_prod} workbooks from non-[PROD] projects")
     return all_workbooks
 
 
-def download_thumbnail(server, site_id, auth_token, workbook_id, output_path, api_version="3.24"):
-    """Download a workbook preview image."""
-    url = f"{server}/api/{api_version}/sites/{site_id}/workbooks/{workbook_id}/previewImage"
-    headers = {"X-Tableau-Auth": auth_token}
+def get_views_for_workbook(server, site_id, auth_token, workbook_id, api_version="3.24"):
+    """Fetch views for a specific workbook to get correct view URLs."""
+    url = f"{server}/api/{api_version}/sites/{site_id}/workbooks/{workbook_id}/views"
+    headers = {"X-Tableau-Auth": auth_token, "Accept": "application/xml"}
 
-    response = requests.get(url, headers=headers)
-    if response.status_code == 200:
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        with open(output_path, "wb") as f:
-            f.write(response.content)
-        return True
-    return False
+    try:
+        response = requests.get(url, headers=headers)
+        if response.status_code != 200:
+            return []
+
+        root = ET.fromstring(response.text)
+        views = []
+        for view in root.findall(".//t:view", NS):
+            views.append({
+                "id": view.get("id", ""),
+                "name": view.get("name", ""),
+                "contentUrl": view.get("contentUrl", ""),
+            })
+        return views
+    except Exception as e:
+        print(f"   Warning: Could not fetch views for workbook {workbook_id}: {e}")
+        return []
 
 
-def workbook_to_report(workbook, server, site):
-    """Convert a Tableau workbook to our report format.
+def build_tableau_url(server, site, workbook_content_url, view_content_url=None):
+    """Build the correct Tableau Cloud URL for a view.
 
-    Pulls certification status directly from Tableau's isCertified flag
-    and certificationNote field, so it stays in sync automatically.
+    Tableau Cloud URLs follow the format:
+    https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/WorkbookName/ViewName
+
+    The view contentUrl from the API is in format: WorkbookName/ViewName
     """
+    if view_content_url:
+        # view contentUrl is already in "WorkbookName/ViewName" format
+        return f"{server}/#/site/{site}/views/{view_content_url}"
+    else:
+        # Fallback: use workbook contentUrl (links to first view)
+        return f"{server}/#/site/{site}/workbooks/{workbook_content_url}"
+
+
+def extract_bu_from_project(project_name):
+    """Extract business unit from project name.
+
+    Examples:
+      '[PROD] Customer Intelligence' -> 'Customer Intelligence'
+      '[PROD] Finance'               -> 'Finance'
+      '[PROD] Sales / Pipeline'      -> 'Sales'
+    """
+    # Strip [PROD] prefix
+    bu = re.sub(r'^\[PROD\]\s*', '', project_name).strip()
+    # Take the first segment if separated by /
+    if '/' in bu:
+        bu = bu.split('/')[0].strip()
+    return bu or project_name
+
+
+def workbook_to_report(workbook, server, site, default_view_url=None):
+    """Convert a Tableau workbook to our report format."""
     wb_id = workbook["id"][:8]
     content_url = workbook.get("contentUrl", "")
     owner = workbook.get("owner", {})
     cert_status = workbook.get("certStatus", "none")
     cert_note = workbook.get("certificationNote", "")
+    project_name = workbook.get("project", {}).get("name", "General")
 
-    # Build tags from certification and project info
+    # Build the correct URL
+    url = build_tableau_url(server, site, content_url, default_view_url)
+
+    # Extract BU from [PROD] project name
+    bu = extract_bu_from_project(project_name)
+
+    # Build tags
     tags = ["tableau", "auto-synced"]
     if cert_status == "enterprise_certified":
         tags.append("certified")
@@ -231,24 +266,12 @@ def workbook_to_report(workbook, server, site):
     if cert_note:
         tags.append(cert_note.lower().replace(" ", "-")[:30])
 
-    # Detect project-level naming conventions for BU mapping
-    # e.g., "[PROD] Finance" -> bu="Finance", or "Finance / Revenue" -> bu="Finance"
-    project_name = workbook.get("project", {}).get("name", "General")
-    bu = project_name
-    # Strip common prefixes like [PROD], [DEV], [STAGING]
-    import re
-    bu_clean = re.sub(r'^\[.*?\]\s*', '', bu).strip()
-    # Take the first segment if separated by /
-    if '/' in bu_clean:
-        bu_clean = bu_clean.split('/')[0].strip()
-    bu = bu_clean or project_name
-
     return {
         "id": f"tab-{wb_id}",
         "name": workbook["name"],
         "description": workbook.get("description", "") or f"Tableau workbook: {workbook['name']}",
         "thumbnail": f"thumbnails/tab-{wb_id}.png",
-        "url": f"{server}/site/{site}/views/{content_url}",
+        "url": url,
         "source": "tableau",
         "bu": bu,
         "category": "General",
@@ -283,9 +306,8 @@ def load_existing_reports(reports_path):
 def merge_reports(existing_data, new_tableau_reports):
     """Merge new Tableau reports into existing data.
 
-    For Tableau reports:
-    - Certification always comes from Tableau API (source of truth)
-    - Manual overrides for category, access, and description are preserved
+    Certification always comes from Tableau API (source of truth).
+    Manual overrides for category, access, and description are preserved.
     """
     existing_reports = existing_data["reports"]
     existing_by_id = {r["id"]: r for r in existing_reports}
@@ -301,19 +323,19 @@ def merge_reports(existing_data, new_tableau_reports):
     for new_report in new_tableau_reports:
         existing = existing_by_id.get(new_report["id"])
         if existing:
-            # Certification comes from Tableau — it is the source of truth
-            # (don't override with manual values)
-
-            # But preserve manual overrides for these fields
             new_report["category"] = existing.get("category", new_report["category"])
             new_report["access"] = existing.get("access", new_report["access"])
-            # Keep manual description if user customized it
             existing_desc = existing.get("description", "")
             if existing_desc and not existing_desc.startswith("Tableau workbook:"):
                 new_report["description"] = existing_desc
         merged.append(new_report)
 
     existing_data["reports"] = merged
+
+    # Auto-update business_units list from actual data
+    bus = sorted(set(r["bu"] for r in merged))
+    existing_data["business_units"] = bus
+
     return existing_data
 
 
@@ -336,32 +358,57 @@ def main():
     api_version = auth["api_version"]
     print(f"   Authenticated. Site ID: {auth['site_id'][:8]}... (API {api_version})")
 
-    # Step 2: Fetch workbooks
-    print("\n2. Fetching workbooks...")
+    # Step 2: Fetch workbooks (only from [PROD] projects)
+    print("\n2. Fetching workbooks from [PROD] projects...")
     workbooks = get_workbooks(server, auth["site_id"], auth["token"], api_version)
-    print(f"   Found {len(workbooks)} workbooks")
+    print(f"   Found {len(workbooks)} workbooks in [PROD] projects")
 
-    # Step 3: Convert to report format
-    print("\n3. Converting to report format...")
-    new_reports = [workbook_to_report(wb, server, site) for wb in workbooks]
+    # Step 3: Fetch default view URL for each workbook
+    print("\n3. Fetching view URLs for correct linking...")
+    wb_view_urls = {}
+    for i, wb in enumerate(workbooks):
+        views = get_views_for_workbook(server, auth["site_id"], auth["token"], wb["id"], api_version)
+        if views:
+            # Use the first view's contentUrl as the default link
+            wb_view_urls[wb["id"]] = views[0]["contentUrl"]
+        if (i + 1) % 50 == 0:
+            print(f"   Processed {i + 1}/{len(workbooks)} workbooks...")
+    print(f"   Got view URLs for {len(wb_view_urls)} workbooks")
 
-    # Step 4: Download thumbnails
-    print("\n4. Downloading thumbnails...")
+    # Step 4: Convert to report format
+    print("\n4. Converting to report format...")
+    new_reports = []
+    for wb in workbooks:
+        view_url = wb_view_urls.get(wb["id"])
+        report = workbook_to_report(wb, server, site, default_view_url=view_url)
+        new_reports.append(report)
+
+    # Step 5: Download thumbnails
+    print("\n5. Downloading thumbnails...")
+    downloaded = 0
     for wb, report in zip(workbooks, new_reports):
         thumb_path = thumbnails_dir / f"tab-{wb['id'][:8]}.png"
         if download_thumbnail(server, auth["site_id"], auth["token"], wb["id"], str(thumb_path), api_version):
-            print(f"   Downloaded: {report['name']}")
-        else:
-            print(f"   Skipped (no preview): {report['name']}")
+            downloaded += 1
+    print(f"   Downloaded {downloaded} thumbnails, skipped {len(workbooks) - downloaded}")
 
-    # Step 5: Merge with existing
-    print("\n5. Merging with existing registry...")
+    # Step 6: Merge with existing
+    print("\n6. Merging with existing registry...")
     existing = load_existing_reports(str(reports_path))
     merged = merge_reports(existing, new_reports)
     print(f"   Total reports after merge: {len(merged['reports'])}")
 
-    # Step 6: Save
-    print("\n6. Saving updated reports.json...")
+    # Print BU summary
+    bu_counts = {}
+    for r in merged["reports"]:
+        bu = r.get("bu", "Other")
+        bu_counts[bu] = bu_counts.get(bu, 0) + 1
+    print(f"\n   Reports by Business Unit:")
+    for bu, count in sorted(bu_counts.items()):
+        print(f"     {bu}: {count}")
+
+    # Step 7: Save
+    print("\n7. Saving updated reports.json...")
     os.makedirs(os.path.dirname(reports_path), exist_ok=True)
     with open(reports_path, "w") as f:
         json.dump(merged, f, indent=2)
