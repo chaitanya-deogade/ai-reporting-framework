@@ -39,9 +39,13 @@ from pathlib import Path
 try:
     import jwt
     import requests
+    import xml.etree.ElementTree as ET
 except ImportError:
     print("Error: Missing dependencies. Run: pip install pyjwt requests")
     sys.exit(1)
+
+# Tableau REST API XML namespace
+NS = {"t": "http://tableau.com/api"}
 
 
 def get_env(key, required=True):
@@ -83,32 +87,40 @@ def create_jwt_token():
 
 
 def sign_in(server, site, jwt_token):
-    """Sign in to the Tableau REST API and return auth token + site ID.
+    """Sign in to the Tableau REST API using XML payloads.
 
     Tries multiple API versions for compatibility.
     """
-    # Try API versions from newest to oldest
     api_versions = ["3.24", "3.22", "3.20", "3.19"]
+
+    # Tableau REST API expects XML
+    xml_payload = f"""
+    <tsRequest>
+      <credentials jwt="{jwt_token}">
+        <site contentUrl="{site}" />
+      </credentials>
+    </tsRequest>
+    """
+    headers = {"Content-Type": "application/xml", "Accept": "application/xml"}
 
     for version in api_versions:
         url = f"{server}/api/{version}/auth/signin"
-        payload = {"credentials": {"jwt": jwt_token, "site": {"contentUrl": site}}}
-
         print(f"   Trying API version {version}...")
-        response = requests.post(url, json=payload)
+        response = requests.post(url, data=xml_payload, headers=headers)
 
         if response.status_code == 200:
-            data = response.json()
+            root = ET.fromstring(response.text)
+            cred = root.find(".//t:credentials", NS)
+            site_elem = cred.find("t:site", NS)
             print(f"   Success with API version {version}")
             return {
-                "token": data["credentials"]["token"],
-                "site_id": data["credentials"]["site"]["id"],
+                "token": cred.get("token"),
+                "site_id": site_elem.get("id"),
                 "api_version": version,
             }
         else:
-            print(f"   API {version}: {response.status_code} - {response.text[:200]}")
+            print(f"   API {version}: {response.status_code} - {response.text[:300]}")
 
-    # If all versions fail, raise with details
     print(f"\n   ERROR: All API versions failed.")
     print(f"   Server: {server}")
     print(f"   Site: {site}")
@@ -121,10 +133,10 @@ def sign_in(server, site, jwt_token):
 
 
 def get_workbooks(server, site_id, auth_token, api_version="3.24"):
-    """Fetch all workbooks from Tableau Cloud."""
+    """Fetch all workbooks from Tableau Cloud (XML parsing)."""
     url = f"{server}/api/{api_version}/sites/{site_id}/workbooks"
-    headers = {"X-Tableau-Auth": auth_token}
-    params = {"pageSize": 1000}
+    headers = {"X-Tableau-Auth": auth_token, "Accept": "application/xml"}
+    params = {"pageSize": 100}
 
     all_workbooks = []
     page = 1
@@ -134,11 +146,29 @@ def get_workbooks(server, site_id, auth_token, api_version="3.24"):
         response = requests.get(url, headers=headers, params=params)
         response.raise_for_status()
 
-        data = response.json()
-        workbooks = data.get("workbooks", {}).get("workbook", [])
-        all_workbooks.extend(workbooks)
+        root = ET.fromstring(response.text)
+        pagination = root.find(".//t:pagination", NS)
+        total = int(pagination.get("totalAvailable", "0"))
 
-        total = int(data["pagination"]["totalAvailable"])
+        for wb in root.findall(".//t:workbook", NS):
+            owner_elem = wb.find("t:owner", NS)
+            project_elem = wb.find("t:project", NS)
+            all_workbooks.append({
+                "id": wb.get("id", ""),
+                "name": wb.get("name", ""),
+                "description": wb.get("description", ""),
+                "contentUrl": wb.get("contentUrl", ""),
+                "createdAt": wb.get("createdAt", ""),
+                "updatedAt": wb.get("updatedAt", ""),
+                "owner": {
+                    "name": owner_elem.get("name", "Unknown") if owner_elem is not None else "Unknown",
+                    "email": owner_elem.get("name", "unknown") if owner_elem is not None else "unknown",
+                },
+                "project": {
+                    "name": project_elem.get("name", "General") if project_elem is not None else "General",
+                },
+            })
+
         if len(all_workbooks) >= total:
             break
         page += 1
