@@ -114,10 +114,17 @@ export default function ReportCard({ report }) {
                   if (canCertify()) setShowCertifyMenu(!showCertifyMenu);
                 }}
                 className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium whitespace-nowrap ${cert.bgColor} ${cert.color} ${cert.borderColor} border ${canCertify() ? 'hover:ring-2 hover:ring-[#863bff]/20 cursor-pointer' : ''} transition-all`}
-                title={canCertify() ? 'Click to change certification' : 'Sign in to certify'}
+                title={
+                  currentCert.source === 'tableau_api'
+                    ? `Synced from Tableau${currentCert.note ? ': ' + currentCert.note : ''}`
+                    : canCertify() ? 'Click to change certification' : 'Sign in to certify'
+                }
               >
                 <span className="text-xs">{cert.icon}</span>
                 {cert.shortLabel}
+                {currentCert.source === 'tableau_api' && (
+                  <span className="text-[8px] opacity-60">T</span>
+                )}
               </button>
 
               {/* Certification dropdown */}
