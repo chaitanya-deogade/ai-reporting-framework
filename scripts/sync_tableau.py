@@ -153,6 +153,23 @@ def get_workbooks(server, site_id, auth_token, api_version="3.24"):
         for wb in root.findall(".//t:workbook", NS):
             owner_elem = wb.find("t:owner", NS)
             project_elem = wb.find("t:project", NS)
+
+            # Parse certification status from Tableau
+            # Tableau uses isCertified attribute + certificationNote
+            is_certified = wb.get("isCertified", "false").lower() == "true"
+            certification_note = wb.get("certificationNote", "") or ""
+
+            # Determine certification level from the note or flag
+            # Tableau certified = enterprise_certified
+            # If note contains "BU" = bu_certified
+            cert_status = "none"
+            if is_certified:
+                note_lower = certification_note.lower()
+                if "bu" in note_lower and "enterprise" not in note_lower:
+                    cert_status = "bu_certified"
+                else:
+                    cert_status = "enterprise_certified"
+
             all_workbooks.append({
                 "id": wb.get("id", ""),
                 "name": wb.get("name", ""),
@@ -160,6 +177,9 @@ def get_workbooks(server, site_id, auth_token, api_version="3.24"):
                 "contentUrl": wb.get("contentUrl", ""),
                 "createdAt": wb.get("createdAt", ""),
                 "updatedAt": wb.get("updatedAt", ""),
+                "isCertified": is_certified,
+                "certificationNote": certification_note,
+                "certStatus": cert_status,
                 "owner": {
                     "name": owner_elem.get("name", "Unknown") if owner_elem is not None else "Unknown",
                     "email": owner_elem.get("name", "unknown") if owner_elem is not None else "unknown",
@@ -191,29 +211,58 @@ def download_thumbnail(server, site_id, auth_token, workbook_id, output_path, ap
 
 
 def workbook_to_report(workbook, server, site):
-    """Convert a Tableau workbook to our report format."""
+    """Convert a Tableau workbook to our report format.
+
+    Pulls certification status directly from Tableau's isCertified flag
+    and certificationNote field, so it stays in sync automatically.
+    """
     wb_id = workbook["id"][:8]
     content_url = workbook.get("contentUrl", "")
     owner = workbook.get("owner", {})
+    cert_status = workbook.get("certStatus", "none")
+    cert_note = workbook.get("certificationNote", "")
+
+    # Build tags from certification and project info
+    tags = ["tableau", "auto-synced"]
+    if cert_status == "enterprise_certified":
+        tags.append("certified")
+    elif cert_status == "bu_certified":
+        tags.append("bu-certified")
+    if cert_note:
+        tags.append(cert_note.lower().replace(" ", "-")[:30])
+
+    # Detect project-level naming conventions for BU mapping
+    # e.g., "[PROD] Finance" -> bu="Finance", or "Finance / Revenue" -> bu="Finance"
+    project_name = workbook.get("project", {}).get("name", "General")
+    bu = project_name
+    # Strip common prefixes like [PROD], [DEV], [STAGING]
+    import re
+    bu_clean = re.sub(r'^\[.*?\]\s*', '', bu).strip()
+    # Take the first segment if separated by /
+    if '/' in bu_clean:
+        bu_clean = bu_clean.split('/')[0].strip()
+    bu = bu_clean or project_name
 
     return {
         "id": f"tab-{wb_id}",
         "name": workbook["name"],
-        "description": workbook.get("description", f"Tableau workbook: {workbook['name']}"),
+        "description": workbook.get("description", "") or f"Tableau workbook: {workbook['name']}",
         "thumbnail": f"thumbnails/tab-{wb_id}.png",
         "url": f"{server}/site/{site}/views/{content_url}",
         "source": "tableau",
-        "bu": workbook.get("project", {}).get("name", "General"),
+        "bu": bu,
         "category": "General",
-        "tags": ["tableau", "auto-synced"],
+        "tags": tags,
         "owner": {
             "name": owner.get("name", "Unknown"),
             "email": owner.get("email", owner.get("name", "unknown")),
         },
         "certification": {
-            "status": "none",
-            "certified_by": None,
-            "certified_at": None,
+            "status": cert_status,
+            "certified_by": "tableau" if cert_status != "none" else None,
+            "certified_at": workbook.get("updatedAt", "")[:10] if cert_status != "none" else None,
+            "source": "tableau_api",
+            "note": cert_note if cert_note else None,
         },
         "access": {"restricted": False},
         "last_refreshed_at": workbook.get("updatedAt", datetime.now(timezone.utc).isoformat()),
@@ -232,7 +281,12 @@ def load_existing_reports(reports_path):
 
 
 def merge_reports(existing_data, new_tableau_reports):
-    """Merge new Tableau reports into existing data, preserving manual entries and certifications."""
+    """Merge new Tableau reports into existing data.
+
+    For Tableau reports:
+    - Certification always comes from Tableau API (source of truth)
+    - Manual overrides for category, access, and description are preserved
+    """
     existing_reports = existing_data["reports"]
     existing_by_id = {r["id"]: r for r in existing_reports}
 
@@ -247,14 +301,16 @@ def merge_reports(existing_data, new_tableau_reports):
     for new_report in new_tableau_reports:
         existing = existing_by_id.get(new_report["id"])
         if existing:
-            # Preserve certification status and manual overrides
-            new_report["certification"] = existing["certification"]
-            new_report["bu"] = existing.get("bu", new_report["bu"])
+            # Certification comes from Tableau — it is the source of truth
+            # (don't override with manual values)
+
+            # But preserve manual overrides for these fields
             new_report["category"] = existing.get("category", new_report["category"])
-            new_report["tags"] = existing.get("tags", new_report["tags"])
             new_report["access"] = existing.get("access", new_report["access"])
-            if existing.get("description") and existing["description"] != f"Tableau workbook: {existing['name']}":
-                new_report["description"] = existing["description"]
+            # Keep manual description if user customized it
+            existing_desc = existing.get("description", "")
+            if existing_desc and not existing_desc.startswith("Tableau workbook:"):
+                new_report["description"] = existing_desc
         merged.append(new_report)
 
     existing_data["reports"] = merged
