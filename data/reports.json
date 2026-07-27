@@ -957,9 +957,9 @@
       "access": {
         "restricted": false
       },
-      "last_refreshed_at": "2026-07-02T22:42:48Z",
+      "last_refreshed_at": "2026-07-23T00:22:15Z",
       "created_at": "2025-06-17T22:35:34Z",
-      "updated_at": "2026-07-02T22:42:48Z"
+      "updated_at": "2026-07-23T00:22:15Z"
     },
     {
       "id": "tab-acbcea26",
@@ -1359,6 +1359,37 @@
       "last_refreshed_at": "2026-07-01T20:21:37Z",
       "created_at": "2026-07-01T20:21:36Z",
       "updated_at": "2026-07-01T20:21:37Z"
+    },
+    {
+      "id": "tab-6c18bb30",
+      "name": "[PROD] Legal Metrics",
+      "description": "Tableau workbook: [PROD] Legal Metrics",
+      "thumbnail": "thumbnails/tab-6c18bb30.png",
+      "url": "https://10ay.online.tableau.com/#/site/amplitudeteamspace/views/PRODLegalMetrics/MSAMetrics",
+      "source": "tableau",
+      "bu": "Legal",
+      "category": "General",
+      "tags": [
+        "tableau",
+        "auto-synced"
+      ],
+      "owner": {
+        "name": "abhisek.mukherjee@amplitude.com",
+        "email": "abhisek.mukherjee@amplitude.com"
+      },
+      "certification": {
+        "status": "none",
+        "certified_by": null,
+        "certified_at": null,
+        "source": "tableau_api",
+        "note": null
+      },
+      "access": {
+        "restricted": false
+      },
+      "last_refreshed_at": "2026-07-22T17:51:26Z",
+      "created_at": "2026-07-21T18:15:41Z",
+      "updated_at": "2026-07-22T17:51:26Z"
     }
   ],
   "categories": [
@@ -1384,6 +1415,7 @@
     "Finance Archive",
     "GTM Archive",
     "GTM S&O",
+    "Legal",
     "Marketing",
     "People Ops",
     "Product",
